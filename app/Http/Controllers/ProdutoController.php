@@ -4,14 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Produto;
+use Illuminate\Support\Facades\Input;
 
 class ProdutoController extends Controller
 {
-    public function pesquisar(){
-        $produtos = Produto::all();
-        foreach ($produtos as $produto){
-            echo $produto->descricao . "<br>";
-        }
+    public function pesquisar()
+    {
+        // Recebe o conteúdo elemento 'descricao' do formulário
+        $descricao = Input::get('descricao');
+
+        // Busca produtos com o conteúdo da $descricao
+        $produtos = Produto::where('descricao', 'like', '%'.$descricao.'%')->get();
+
+        // Chama a view produto.pesquisar e envia os produtos encontrados
+        return view('produto.pesquisar')->with('produtos', $produtos);
+
 
     }
 }
