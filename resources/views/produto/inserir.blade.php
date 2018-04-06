@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br">
+<html lang="PT-BR">
 <head>
     <link href="../../css/app.css" rel="stylesheet">
     <meta charset="UTF-8">
@@ -14,6 +14,7 @@
     @if(!empty($mensagem))
         <div class="alert alert-success">Produto inserido com sucesso!</div>
     @endif
+
     <form action="/produtos/inserir" method="post" class="mt-2">
         <input type="hidden" name="_token" value="{{{csrf_token()}}}">
         <div class="form-group">
@@ -35,6 +36,7 @@
         <div>Os campos marcados com <span class="text-danger">*</span> não podem estar em branco.</div>
         <input type="submit" class="btn btn-success mt-2" value="Inserir">
     </form>
+</div>
 </div>
 </body>
 </html>

@@ -26,10 +26,10 @@ class ProdutoController extends Controller
     }
     public function inserir()
     {
-        // Criando um novo objeto do tipo produto
+        // Criando um novo objeto do tipo Produto
         $produto = new Produto();
 
-        //Colocando os valores recebidos do formulario nos atributos do objeto $produto
+        // Colocando os valores recebidos do formulário nos atributos do objeto $produto
         $produto->descricao = Input::get('descricao');
         $produto->quantidade = Input::get('quantidade');
         $produto->valor = Input::get('valor');
@@ -43,5 +43,43 @@ class ProdutoController extends Controller
 
         // Chamando a view produto.inserir e enviando a mensagem criada
         return view('produto.inserir')->with('mensagem', $mensagem);
+    }
+    public function mostrar_alterar($id){
+       //Buscar no banco o registro com o id recebido
+        $produto = Produto::find($id);
+
+        // Enviar os dados deste registro a view produto.alterar
+        return view('produto.alterar')->with('produto',$produto);
+    }
+    public function alterar(){
+        $id = Input::get('id');
+        $p = Produto::find($id);
+
+        $p->descricao = Input::get('descricao');
+        $p->quantidade = Input::get('quantidade');
+        $p->valor =  Input::get('valor');
+        $p->data_vencimento = Input::get('data_vencimento');
+
+        $p->save();
+
+        $mensagem = "Produto alterado com sucesso!";
+        $produtos = Produto::all();
+        return view('produto.pesquisar')->with('mensagem', $mensagem)->with('produtos', $produtos);
+    }
+    public function excluir($id){
+        //Criando um objeto com id recebido pela rota
+        $produto = Produto::find($id);
+
+        //Excluindo este objeto
+        $produto->delete();
+
+        //Criando uma mensagem paa ser enviada a vieww produto.pesquisar
+        $mensagem = "Produto excluido com sucesso!";
+
+        //capturando objeto para enviar a view produto.pesquisar
+        $produtos = Produto::all();
+
+        // Retornando a view produto.pesquisar
+        return view('produto.pesquisar')->with('mensagem', $mensagem)->with('produtos', $produtos);
     }
 }
